@@ -1,0 +1,123 @@
+程序功能说明
+本程序是一个简单的电话号码查询系统。实现如下功能：
+1、通讯录全部从数据库中读出并显示。
+2、支持按照人员姓名或者工号查询。
+3、支持按照部门号码查询出部门所以人员的联系方式。
+4、支持单条记录添加删除功能。
+5、支持excel批量导入功能。
+6、支持excel批量导出功能。
+
+----------------------------------------------
+程序设计
+---------------------------------------------
+数据库        mysql
+web服务器     tomcat
+服务器程序    基于JFinal web 框架 
+------------------------
+数据库创建
+--------------------------
+表名       agis_user
+
+列名       id        empNumber    userName    enName   dptNumber  dptNname      phone      phoneExt     mobliePhone   moblieExt   email  
+说明     用户ID（自动）   工号        中文名        英文名     部门号       部门名       固定电话     固定电话短号       手机         手机短号     邮件
+
+建表语句
+
+DROP DATABASE IF EXISTS agis;
+CREATE DATABASE agis;
+USE agis;
+CREATE TABLE contact (
+id  int(11) NOT NULL auto_increment,
+empNumber varchar(10)  NOT NULL unique,
+userName  varchar(100) NOT NULL,
+enName    varchar(50)  NULL,
+dptNumber varchar(20)  NULL,
+dptName   varchar(50)  NULL,
+phone     varchar(50)  NULL,
+phoneExt  varchar(20)  NULL,
+mobliePhone varchar(50) NULL,
+moblieExt  varchar(20)  NULL,
+email      varchar(50)  NULL,
+PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+insert into contact(empNumber,userName,enName,dptNumber,dptName,phone,phoneExt,mobliePhone,moblieExt,email) values('A8670','蔡汶汶','rocky','132964','IT','051986925859','5859','18861119866','69866','rocky.cai@amphenol-tcs.com');
+insert into contact(empNumber,userName,enName,dptNumber,dptName,phone,phoneExt,mobliePhone,moblieExt,email) values('A7695','蔡汶汶','rocky','132964','IT','051986925859','5859','18861119866','69866','rocky.cai@amphenol-tcs.com');
+insert into contact(empNumber,userName,enName,dptNumber,dptName,phone,phoneExt,mobliePhone,moblieExt,email) values('A6649','蔡汶汶','rocky','132964','IT','051986925859','5859','18861119866','69866','rocky.cai@amphenol-tcs.com');
+insert into contact(empNumber,userName,enName,dptNumber,dptName,phone,phoneExt,mobliePhone,moblieExt,email) values('A5699','蔡汶汶','rocky','132964','IT','051986925859','5859','18861119866','69866','rocky.cai@amphenol-tcs.com');
+insert into contact(empNumber,userName,enName,dptNumber,dptName,phone,phoneExt,mobliePhone,moblieExt,email) values('A4699','蔡汶汶','rocky','132964','IT','051986925859','5859','18861119866','69866','rocky.cai@amphenol-tcs.com');
+insert into contact(empNumber,userName,enName,dptNumber,dptName,phone,phoneExt,mobliePhone,moblieExt,email) values('A3699','蔡汶汶','rocky','132964','IT','051986925859','5859','18861119866','69866','rocky.cai@amphenol-tcs.com');
+insert into contact(empNumber,userName,enName,dptNumber,dptName,phone,phoneExt,mobliePhone,moblieExt,email) values('A2699','蔡汶汶','rocky','132964','IT','051986925859','5859','18861119866','69866','rocky.cai@amphenol-tcs.com');
+insert into contact(empNumber,userName,enName,dptNumber,dptName,phone,phoneExt,mobliePhone,moblieExt,email) values('A1699','蔡汶汶','rocky','132964','IT','051986925859','5859','18861119866','69866','rocky.cai@amphenol-tcs.com');
+insert into contact(empNumber,userName,enName,dptNumber,dptName,phone,phoneExt,mobliePhone,moblieExt,email) values('A6199','蔡汶汶','rocky','132964','IT','051986925859','5859','18861119866','69866','rocky.cai@amphenol-tcs.com');
+insert into contact(empNumber,userName,enName,dptNumber,dptName,phone,phoneExt,mobliePhone,moblieExt,email) values('A8299','蔡汶汶','rocky','132964','IT','051986925859','5859','18861119866','69866','rocky.cai@amphenol-tcs.com');
+insert into contact(empNumber,userName,enName,dptNumber,dptName,phone,phoneExt,mobliePhone,moblieExt,email) values('A8399','蔡汶汶','rocky','132964','IT','051986925859','5859','18861119866','69866','rocky.cai@amphenol-tcs.com');
+insert into contact(empNumber,userName,enName,dptNumber,dptName,phone,phoneExt,mobliePhone,moblieExt,email) values('A8499','蔡汶汶','rocky','132964','IT','051986925859','5859','18861119866','69866','rocky.cai@amphenol-tcs.com');
+insert into contact(empNumber,userName,enName,dptNumber,dptName,phone,phoneExt,mobliePhone,moblieExt,email) values('A8599','蔡汶汶','rocky','132964','IT','051986925859','5859','18861119866','69866','rocky.cai@amphenol-tcs.com');
+insert into contact(empNumber,userName,enName,dptNumber,dptName,phone,phoneExt,mobliePhone,moblieExt,email) values('A8769','蔡汶汶','rocky','132964','IT','051986925859','5859','18861119866','69866','rocky.cai@amphenol-tcs.com');
+insert into contact(empNumber,userName,enName,dptNumber,dptName,phone,phoneExt,mobliePhone,moblieExt,email) values('A8619','蔡汶汶','rocky','132964','IT','051986925859','5859','18861119866','69866','rocky.cai@amphenol-tcs.com');
+insert into contact(empNumber,userName,enName,dptNumber,dptName,phone,phoneExt,mobliePhone,moblieExt,email) values('A8609','蔡汶汶','rocky','132964','IT','051986925859','5859','18861119866','69866','rocky.cai@amphenol-tcs.com');
+insert into contact(empNumber,userName,enName,dptNumber,dptName,phone,phoneExt,mobliePhone,moblieExt,email) values('A8611','蔡汶汶','rocky','132964','IT','051986925859','5859','18861119866','69866','rocky.cai@amphenol-tcs.com');
+insert into contact(empNumber,userName,enName,dptNumber,dptName,phone,phoneExt,mobliePhone,moblieExt,email) values('A8612','蔡汶汶','rocky','132964','IT','051986925859','5859','18861119866','69866','rocky.cai@amphenol-tcs.com');
+insert into contact(empNumber,userName,enName,dptNumber,dptName,phone,phoneExt,mobliePhone,moblieExt,email) values('A8634','蔡汶汶','rocky','132964','IT','051986925859','5859','18861119866','69866','rocky.cai@amphenol-tcs.com');
+insert into contact(empNumber,userName,enName,dptNumber,dptName,phone,phoneExt,mobliePhone,moblieExt,email) values('A8656','蔡汶汶','rocky','132964','IT','051986925859','5859','18861119866','69866','rocky.cai@amphenol-tcs.com');
+insert into contact(empNumber,userName,enName,dptNumber,dptName,phone,phoneExt,mobliePhone,moblieExt,email) values('A8666','蔡汶汶','rocky','132964','IT','051986925859','5859','18861119866','69866','rocky.cai@amphenol-tcs.com');
+insert into contact(empNumber,userName,enName,dptNumber,dptName,phone,phoneExt,mobliePhone,moblieExt,email) values('A8645','蔡汶汶','rocky','132964','IT','051986925859','5859','18861119866','69866','rocky.cai@amphenol-tcs.com');
+insert into contact(empNumber,userName,enName,dptNumber,dptName,phone,phoneExt,mobliePhone,moblieExt,email) values('A8643','蔡汶汶','rocky','132964','IT','051986925859','5859','18861119866','69866','rocky.cai@amphenol-tcs.com');
+insert into contact(empNumber,userName,enName,dptNumber,dptName,phone,phoneExt,mobliePhone,moblieExt,email) values('A8624','蔡汶汶','rocky','132964','IT','051986925859','5859','18861119866','69866','rocky.cai@amphenol-tcs.com');
+insert into contact(empNumber,userName,enName,dptNumber,dptName,phone,phoneExt,mobliePhone,moblieExt,email) values('A8626','蔡汶汶','rocky','132964','IT','051986925859','5859','18861119866','69866','rocky.cai@amphenol-tcs.com');
+insert into contact(empNumber,userName,enName,dptNumber,dptName,phone,phoneExt,mobliePhone,moblieExt,email) values('A8627','蔡汶汶','rocky','132964','IT','051986925859','5859','18861119866','69866','rocky.cai@amphenol-tcs.com');
+insert into contact(empNumber,userName,enName,dptNumber,dptName,phone,phoneExt,mobliePhone,moblieExt,email) values('A8617','蔡汶汶','rocky','132964','IT','051986925859','5859','18861119866','69866','rocky.cai@amphenol-tcs.com');
+insert into contact(empNumber,userName,enName,dptNumber,dptName,phone,phoneExt,mobliePhone,moblieExt,email) values('A8647','蔡汶汶','rocky','132964','IT','051986925859','5859','18861119866','69866','rocky.cai@amphenol-tcs.com');
+
+-----------------------------------------------------
+用户登录表 system_user
+列名  id   userId  name  password  group 
+说明       工号     登录名   密码      用户组（指定用户权限的）
+-----------------------------------------------------
+
+创建用户登录表  system_user
+CREATE TABLE system_user(
+id  int(11) NOT NULL auto_increment,
+empNumber varchar(10) NOT NULL,
+name  varchar(20)   NOT NULL unique,
+password  varchar(50)  NOT NULL,
+groupId  int(10)  default 3,
+PRIMARY KEY (id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--------------------------------------------------------
+用户权限组表  system_role
+列名  id groupName  description
+说明     组名          描述
+默认创建 三个组 id 1 root组 管理员。 id 2 user组 普通用户组，id 3 guest组 默认组。
+------------------------------------------------------
+创建用户权限组表  system_role
+CREATE TABLE system_role(
+id int(11) NOT NULL auto_increment,
+groupName  varchar(20) NOT NULL,
+description  varchar(50), 
+PRIMARY KEY (id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+insert into system_role values(1,'root','管理员');
+insert into system_role values(2,'user','普通用户组');
+insert into system_role values(3,'guest','普通用户组');
+
+    
+数据库连接配置文件  mysql_connect
+jdbcUrl = jdbc:mysql://127.0.0.1/agis?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
+user = root
+password =root
+devMode = true
+
+ 包名  com.amphenol.gis.config
+ 此包下的类主要负责程序的配置和控制设置。
+    设计类  ContactConfig  extends JFinalConfig  通讯录主程序的配置类 
+        复写configConstant(Constants me) 方法
+            加载数据库登陆信息配置文件文件  mysql_connect
+            配置常量 setDevMode（true）；打开开发模式 
+            setViewType（ViewType.jsp） 设置视图模式为JSP
+         复写configRoute（Routes me） 配置路由信息
+            
+ 
+            
